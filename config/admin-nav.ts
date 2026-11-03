@@ -1,6 +1,8 @@
 import { AdminNavItem } from "@/types/admin";
 import {
   CreditCard,
+  Camera,
+  Droplet,
   FileText,
   FolderOpen,
   Image,
@@ -81,6 +83,20 @@ export const ADMIN_NAVIGATION: AdminNavItem[] = [
     name: "Information Directory",
     href: "/admin/service-directory",
     icon: List,
+    roles: ["admin", "manager"],
+    section: "Store",
+  },
+  {
+    name: "Blood Donors",
+    href: "/admin/blood-donors",
+    icon: Droplet,
+    roles: ["admin", "manager"],
+    section: "Store",
+  },
+  {
+    name: "Tourism & Recreation",
+    href: "/admin/tourism",
+    icon: Camera,
     roles: ["admin", "manager"],
     section: "Store",
   },

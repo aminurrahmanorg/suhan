@@ -66,6 +66,8 @@ export interface StoreSettings {
   sidebar_categories: string;
   emergency_services: string;
   service_directory: string;
+  blood_donor_section: string;
+  tourism_section: string;
   trust_badges: string;
   // Mobile Marquee
   mobile_marquee_enabled: string;
@@ -136,6 +138,8 @@ const DEFAULT_STORE_SETTINGS: StoreSettings = {
   sidebar_categories: "",
   emergency_services: "[]",
   service_directory: "",
+  blood_donor_section: "",
+  tourism_section: "",
   trust_badges: JSON.stringify([
     {
       id: "free-shipping",

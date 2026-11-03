@@ -8,6 +8,8 @@ import CustomerDashboard from "./CustomerDashboard";
 import { format } from "date-fns";
 import {
   Banknote,
+  Camera,
+  Droplet,
   FolderOpen,
   List,
   Package,
@@ -20,6 +22,7 @@ import {
 import Link from "next/link";
 import { parseEmergencyServices } from "@/lib/emergency-services";
 import { parseServiceDirectory } from "@/lib/service-directory";
+import { parseBloodDonorSection, parseTourismSection } from "@/lib/home-sections";
 
 export default function AdminDashboard() {
   const { isAdmin, isStaff } = useAuth();
@@ -52,6 +55,12 @@ export default function AdminDashboard() {
   const directoryListingCount = parseServiceDirectory(
     storeSettings?.service_directory,
   ).listings.filter((listing) => listing.is_active).length;
+  const bloodGroupCount = parseBloodDonorSection(
+    storeSettings?.blood_donor_section,
+  ).cards.filter((card) => card.is_active).length;
+  const tourismItemCount = parseTourismSection(
+    storeSettings?.tourism_section,
+  ).items.filter((item) => item.is_active).length;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -76,7 +85,7 @@ export default function AdminDashboard() {
 
       {storeSettingsError && (
         <p role="alert" className="mb-4 text-sm text-destructive">
-          Could not load emergency and directory summaries: {storeSettingsError.message}
+          Could not load homepage section summaries: {storeSettingsError.message}
         </p>
       )}
 
@@ -200,6 +209,38 @@ export default function AdminDashboard() {
             <div>
               <p className="text-sm font-semibold">Settings</p>
               <p className="text-xs text-muted-foreground">Manage site settings</p>
+            </div>
+          </div>
+        </Link>
+        <Link
+          href="/admin/blood-donors"
+          className="bg-card rounded-xl border border-border p-4 hover:border-accent transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-rose-100 flex items-center justify-center">
+              <Droplet className="h-5 w-5 text-rose-600" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold">
+                {isStoreSettingsLoading ? "—" : bloodGroupCount}
+              </p>
+              <p className="text-xs text-muted-foreground">Blood Donor Groups</p>
+            </div>
+          </div>
+        </Link>
+        <Link
+          href="/admin/tourism"
+          className="bg-card rounded-xl border border-border p-4 hover:border-accent transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
+              <Camera className="h-5 w-5 text-amber-600" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold">
+                {isStoreSettingsLoading ? "—" : tourismItemCount}
+              </p>
+              <p className="text-xs text-muted-foreground">Tourism Items</p>
             </div>
           </div>
         </Link>

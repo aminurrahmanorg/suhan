@@ -39,6 +39,8 @@ import {
 import Link from "next/link";
 import { useSliderSlides } from "@/hooks/useShopData";
 import { EmergencyServices } from "@/components/main/home/EmergencyServices";
+import { BloodDonorSection } from "@/components/main/home/BloodDonorSection";
+import { TourismSection } from "@/components/main/home/TourismSection";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import type { DirectoryIcon } from "@/lib/service-directory";
@@ -49,8 +51,8 @@ const SIDE_LINKS = [
   { label: "জেলা তথ্য", icon: Info, target: "directory" },
   { label: "জেলার ইতিহাস", icon: Clock3, target: "directory" },
   { label: "বিখ্যাত ব্যক্তিত্ব", icon: UserRound, target: "directory" },
-  { label: "রক্তদাতা", icon: Droplet, target: "directory" },
-  { label: "পর্যটন ও বিনোদন", icon: Camera, target: "directory" },
+  { label: "রক্তদাতা", icon: Droplet, target: "blood-donors" },
+  { label: "পর্যটন ও বিনোদন", icon: Camera, target: "tourism" },
   { label: "নোটিশ", icon: Newspaper, target: "directory" },
   { label: "সংবাদ", icon: Newspaper, target: "directory" },
 ];
@@ -193,7 +195,7 @@ export function HomePage() {
         </nav>
         <div className="shrink-0 border-t px-5 py-3 text-[11px] text-slate-500">
           <p>সংস্করণ ৬.০.৩ · {storeName}</p>
-          <p className="mt-2 font-semibold text-emerald-700">〈/〉 Developed by suhan</p>
+          <p className="mt-2 font-semibold text-emerald-700">〈/〉 Developed by SUhan</p>
         </div>
       </aside>
 
@@ -305,6 +307,8 @@ export function HomePage() {
               })}
             </div>
           )}
+          <BloodDonorSection />
+          <TourismSection />
           </div>
         </section>
 
