@@ -35,6 +35,72 @@ export interface TourismSectionData {
   items: TourismItem[];
 }
 
+export interface NoticeItem {
+  id: string;
+  title: string;
+  date: string;
+  href: string;
+  is_active: boolean;
+}
+
+export interface NoticeBoardData {
+  title: string;
+  view_all_href: string;
+  items: NoticeItem[];
+}
+
+export interface NewsItem {
+  id: string;
+  title: string;
+  date: string;
+  image: string;
+  href: string;
+  is_active: boolean;
+}
+
+export interface LatestNewsData {
+  title: string;
+  view_all_href: string;
+  items: NewsItem[];
+}
+
+export const STATISTICS_ICONS = [
+  "map",
+  "grid",
+  "home",
+  "users",
+  "list",
+  "droplet",
+  "eye",
+  "globe",
+] as const;
+
+export const STATISTICS_COLORS = [
+  "emerald",
+  "blue",
+  "teal",
+  "violet",
+  "rose",
+  "sky",
+] as const;
+
+export type StatisticsIcon = (typeof STATISTICS_ICONS)[number];
+export type StatisticsColor = (typeof STATISTICS_COLORS)[number];
+
+export interface StatisticsItem {
+  id: string;
+  label: string;
+  value: string;
+  icon: StatisticsIcon;
+  color: StatisticsColor;
+  is_active: boolean;
+}
+
+export interface StatisticsSectionData {
+  title: string;
+  items: StatisticsItem[];
+}
+
 export const EMPTY_BLOOD_DONOR_SECTION: BloodDonorSectionData = {
   title: "রক্তদাতা খুঁজুন",
   cards: [],
@@ -44,6 +110,51 @@ export const EMPTY_TOURISM_SECTION: TourismSectionData = {
   title: "পর্যটন ও বিনোদন",
   items: [],
 };
+
+export const EMPTY_NOTICE_BOARD: NoticeBoardData = {
+  title: "নোটিশ বোর্ড",
+  view_all_href: "",
+  items: [],
+};
+
+export const EMPTY_LATEST_NEWS: LatestNewsData = {
+  title: "সর্বশেষ সংবাদ",
+  view_all_href: "",
+  items: [],
+};
+
+export const DEFAULT_STATISTICS_SECTION: StatisticsSectionData = {
+  title: "পরিসংখ্যান",
+  items: [
+    { id: "upazilas", label: "উপজেলা", value: "১০", icon: "map", color: "emerald", is_active: true },
+    { id: "unions", label: "ইউনিয়ন/পৌরসভা", value: "৯১", icon: "grid", color: "blue", is_active: true },
+    { id: "areas", label: "গ্রাম/এলাকা/মহল্লা", value: "৩৬", icon: "home", color: "teal", is_active: true },
+    { id: "users", label: "রেজিস্ট্রেশনকৃত ব্যবহারকারী", value: "২৩", icon: "users", color: "violet", is_active: true },
+    { id: "listings", label: "মোট লিস্টিং", value: "৫৩", icon: "list", color: "emerald", is_active: true },
+    { id: "donors", label: "রক্তদাতা", value: "৪", icon: "droplet", color: "rose", is_active: true },
+    { id: "today-visitors", label: "আজকের ভিজিটর", value: "৫", icon: "eye", color: "sky", is_active: true },
+    { id: "total-visitors", label: "মোট ভিজিটর", value: "৪৪৪", icon: "globe", color: "violet", is_active: true },
+  ],
+};
+
+export function parseStatisticsSection(value?: string): StatisticsSectionData {
+  if (!value) return DEFAULT_STATISTICS_SECTION;
+
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (!isRecord(parsed) || !Array.isArray(parsed.items)) {
+      throw new Error("পরিসংখ্যান বিভাগের তথ্য সঠিক নয়।");
+    }
+
+    return {
+      title: typeof parsed.title === "string" ? parsed.title : DEFAULT_STATISTICS_SECTION.title,
+      items: parsed.items.filter(isStatisticsItem),
+    };
+  } catch (error) {
+    console.error("Failed to parse statistics section.", error);
+    return DEFAULT_STATISTICS_SECTION;
+  }
+}
 
 export function parseBloodDonorSection(value?: string): BloodDonorSectionData {
   if (!value) return EMPTY_BLOOD_DONOR_SECTION;
@@ -61,6 +172,46 @@ export function parseBloodDonorSection(value?: string): BloodDonorSectionData {
   } catch (error) {
     console.error("Failed to parse blood donor section.", error);
     return EMPTY_BLOOD_DONOR_SECTION;
+  }
+}
+
+export function parseNoticeBoard(value?: string): NoticeBoardData {
+  if (!value) return EMPTY_NOTICE_BOARD;
+
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (!isRecord(parsed) || !Array.isArray(parsed.items)) {
+      throw new Error("নোটিশ বোর্ডের তথ্য সঠিক নয়।");
+    }
+
+    return {
+      title: typeof parsed.title === "string" ? parsed.title : EMPTY_NOTICE_BOARD.title,
+      view_all_href: typeof parsed.view_all_href === "string" ? parsed.view_all_href : "",
+      items: parsed.items.filter(isNoticeItem),
+    };
+  } catch (error) {
+    console.error("Failed to parse notice board.", error);
+    return EMPTY_NOTICE_BOARD;
+  }
+}
+
+export function parseLatestNews(value?: string): LatestNewsData {
+  if (!value) return EMPTY_LATEST_NEWS;
+
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (!isRecord(parsed) || !Array.isArray(parsed.items)) {
+      throw new Error("সর্বশেষ সংবাদের তথ্য সঠিক নয়।");
+    }
+
+    return {
+      title: typeof parsed.title === "string" ? parsed.title : EMPTY_LATEST_NEWS.title,
+      view_all_href: typeof parsed.view_all_href === "string" ? parsed.view_all_href : "",
+      items: parsed.items.filter(isNewsItem),
+    };
+  } catch (error) {
+    console.error("Failed to parse latest news.", error);
+    return EMPTY_LATEST_NEWS;
   }
 }
 
@@ -91,8 +242,55 @@ export function parseTourismSection(value?: string): TourismSectionData {
   }
 }
 
+export function formatHomeContentDate(value: string) {
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat("bn-BD", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
+}
+
+function isNoticeItem(value: unknown): value is NoticeItem {
+  if (!isRecord(value)) return false;
+  return (
+    typeof value.id === "string" &&
+    typeof value.title === "string" &&
+    typeof value.date === "string" &&
+    typeof value.href === "string" &&
+    typeof value.is_active === "boolean"
+  );
+}
+
+function isNewsItem(value: unknown): value is NewsItem {
+  if (!isRecord(value)) return false;
+  return (
+    typeof value.id === "string" &&
+    typeof value.title === "string" &&
+    typeof value.date === "string" &&
+    typeof value.image === "string" &&
+    typeof value.href === "string" &&
+    typeof value.is_active === "boolean"
+  );
+}
+
+function isStatisticsItem(value: unknown): value is StatisticsItem {
+  if (!isRecord(value)) return false;
+  return (
+    typeof value.id === "string" &&
+    typeof value.label === "string" &&
+    typeof value.value === "string" &&
+    typeof value.icon === "string" &&
+    STATISTICS_ICONS.some((icon) => icon === value.icon) &&
+    typeof value.color === "string" &&
+    STATISTICS_COLORS.some((color) => color === value.color) &&
+    typeof value.is_active === "boolean"
+  );
 }
 
 type TourismItemInput =

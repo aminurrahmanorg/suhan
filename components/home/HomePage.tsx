@@ -10,6 +10,7 @@ import {
   Building2,
   Bus,
   Camera,
+  ChartNoAxesColumnIncreasing,
   Clock3,
   Droplet,
   GraduationCap,
@@ -41,6 +42,9 @@ import { useSliderSlides } from "@/hooks/useShopData";
 import { EmergencyServices } from "@/components/main/home/EmergencyServices";
 import { BloodDonorSection } from "@/components/main/home/BloodDonorSection";
 import { TourismSection } from "@/components/main/home/TourismSection";
+import { LatestNews } from "@/components/main/home/LatestNews";
+import { NoticeBoard } from "@/components/main/home/NoticeBoard";
+import { StatisticsSection } from "@/components/main/home/StatisticsSection";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import type { DirectoryIcon } from "@/lib/service-directory";
@@ -53,8 +57,9 @@ const SIDE_LINKS = [
   { label: "বিখ্যাত ব্যক্তিত্ব", icon: UserRound, target: "directory" },
   { label: "রক্তদাতা", icon: Droplet, target: "blood-donors" },
   { label: "পর্যটন ও বিনোদন", icon: Camera, target: "tourism" },
-  { label: "নোটিশ", icon: Newspaper, target: "directory" },
-  { label: "সংবাদ", icon: Newspaper, target: "directory" },
+  { label: "নোটিশ", icon: Newspaper, target: "notice-board" },
+  { label: "সংবাদ", icon: Newspaper, target: "latest-news" },
+  { label: "পরিসংখ্যান", icon: ChartNoAxesColumnIncreasing, target: "statistics" },
 ];
 
 const DIRECTORY_ICON_COMPONENTS: Record<DirectoryIcon, LucideIcon> = {
@@ -132,13 +137,6 @@ export function HomePage() {
     settings.store_tagline.trim() !== "Your one-stop shop"
       ? settings.store_tagline.trim()
       : "হবিগঞ্জের তথ্য ও সেবার স্মার্ট প্ল্যাটফর্ম";
-  const noticeText =
-    settings?.mobile_marquee_text?.trim() &&
-    !settings.mobile_marquee_text.toLowerCase().includes("jersey") &&
-    !settings.mobile_marquee_text.toLowerCase().includes("shipping")
-      ? settings.mobile_marquee_text.trim()
-      : "হবিগঞ্জের সকল তথ্য ও সেবা এখন স্মার্ট হবিগঞ্জে";
-
   const selectSidebarLink = (target: string) => {
     document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
     setSidebarOpen(false);
@@ -250,15 +248,6 @@ export function HomePage() {
           </section>
         </div>
 
-        <div className="flex h-[54px] items-center overflow-hidden border-y bg-white dark:border-slate-800 dark:bg-slate-900">
-          <span className="flex h-full shrink-0 items-center gap-2 bg-[#ff5b50] px-4 text-sm font-bold text-white"><Newspaper className="h-4 w-4" /> নোটিশ</span>
-          <div className="min-w-0 flex-1 overflow-hidden">
-            <div className="flex w-max animate-[marquee_30s_linear_infinite] gap-20 whitespace-nowrap px-8 text-sm text-slate-600 dark:text-slate-300">
-              <span>{noticeText}</span><span>{noticeText}</span><span>{noticeText}</span>
-            </div>
-          </div>
-        </div>
-
         <section id="directory" className="scroll-mt-24">
           <div className="mx-auto max-w-7xl space-y-8 px-5 py-7 sm:px-8">
           <section id="emergency" className="scroll-mt-24">
@@ -309,6 +298,9 @@ export function HomePage() {
           )}
           <BloodDonorSection />
           <TourismSection />
+          <NoticeBoard />
+          <LatestNews />
+          <StatisticsSection />
           </div>
         </section>
 

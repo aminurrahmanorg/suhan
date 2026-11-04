@@ -1,6 +1,7 @@
 "use client";
 
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { HomeContentEditor } from "@/components/admin/system/HomeContentEditor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -377,6 +378,8 @@ export default function AdminHomepage() {
           )}
         </CardContent>
       </Card>
+
+      <HomeContentEditor />
     </div>
   );
 }

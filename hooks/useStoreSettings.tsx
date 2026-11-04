@@ -1,6 +1,7 @@
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createClient } from "../utils/supabase/client";
+import { DEFAULT_STATISTICS_SECTION } from "@/lib/home-sections";
 
 const supabase = createClient();
 export interface StoreSettings {
@@ -68,6 +69,9 @@ export interface StoreSettings {
   service_directory: string;
   blood_donor_section: string;
   tourism_section: string;
+  notice_board: string;
+  latest_news: string;
+  statistics_section: string;
   trust_badges: string;
   // Mobile Marquee
   mobile_marquee_enabled: string;
@@ -140,6 +144,9 @@ const DEFAULT_STORE_SETTINGS: StoreSettings = {
   service_directory: "",
   blood_donor_section: "",
   tourism_section: "",
+  notice_board: "",
+  latest_news: "",
+  statistics_section: JSON.stringify(DEFAULT_STATISTICS_SECTION),
   trust_badges: JSON.stringify([
     {
       id: "free-shipping",

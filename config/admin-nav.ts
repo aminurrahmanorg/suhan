@@ -2,6 +2,7 @@ import { AdminNavItem } from "@/types/admin";
 import {
   CreditCard,
   Camera,
+  ChartNoAxesColumnIncreasing,
   Droplet,
   FileText,
   FolderOpen,
@@ -97,6 +98,13 @@ export const ADMIN_NAVIGATION: AdminNavItem[] = [
     name: "Tourism & Recreation",
     href: "/admin/tourism",
     icon: Camera,
+    roles: ["admin", "manager"],
+    section: "Store",
+  },
+  {
+    name: "পরিসংখ্যান",
+    href: "/admin/statistics",
+    icon: ChartNoAxesColumnIncreasing,
     roles: ["admin", "manager"],
     section: "Store",
   },
