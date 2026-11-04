@@ -151,7 +151,7 @@ export default function TourismDetailPage() {
             </Link>
             <h1 className="break-words text-xl font-extrabold sm:text-4xl">{item.title}</h1>
             {(item.upazila || item.district) && (
-              <p className="mt-2 flex items-center gap-2 text-sm text-white/85">
+              <p className="mt-2 flex flex-wrap items-center gap-2 text-sm text-white/85">
                 <MapPin className="h-4 w-4 text-amber-400" />
                 {[item.upazila, item.district].filter(Boolean).join(", ")}
               </p>
@@ -173,14 +173,14 @@ export default function TourismDetailPage() {
           {item.description && (
             <section className="rounded-2xl bg-white p-4 shadow-sm sm:rounded-3xl sm:p-7 dark:bg-slate-900">
               <h2 className="mb-3 flex items-center gap-2 text-lg font-bold"><span className="text-blue-500">ⓘ</span> সংক্ষিপ্ত বিবরণ</h2>
-              <p className="whitespace-pre-wrap leading-7 text-slate-700 dark:text-slate-300">{item.description}</p>
+              <p className="min-w-0 whitespace-pre-wrap break-words [overflow-wrap:anywhere] leading-7 text-slate-700 dark:text-slate-300">{item.description}</p>
             </section>
           )}
 
           {(item.detail_description || item.description) && (
             <section className="rounded-2xl bg-white p-4 shadow-sm sm:rounded-3xl sm:p-7 dark:bg-slate-900">
               <h2 className="mb-3 flex items-center gap-2 text-lg font-bold"><Camera className="h-5 w-5 text-emerald-600" /> বিস্তারিত বিবরণ</h2>
-              <p className="whitespace-pre-wrap leading-7 text-slate-700 dark:text-slate-300">{item.detail_description || item.description}</p>
+              <p className="min-w-0 whitespace-pre-wrap break-words [overflow-wrap:anywhere] leading-7 text-slate-700 dark:text-slate-300">{item.detail_description || item.description}</p>
             </section>
           )}
 
@@ -214,7 +214,7 @@ export default function TourismDetailPage() {
               <h2 className="mb-4 flex items-center gap-2 text-lg font-bold"><Phone className="h-5 w-5 text-blue-500" /> যোগাযোগ তথ্য</h2>
               <div className="flex flex-wrap gap-3">
                 {item.phone_numbers.map((phone, index) => (
-                  <a key={`${phone}-${index}`} href={`tel:${phone.replace(/[^\d+*#,;]/g, "")}`} className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-3 font-bold text-white hover:bg-emerald-700">
+                  <a key={`${phone}-${index}`} href={`tel:${phone.replace(/[^\d+*#,;]/g, "")}`} className="inline-flex break-words items-center gap-2 rounded-full bg-emerald-600 px-5 py-3 font-bold text-white hover:bg-emerald-700">
                     <Phone className="h-4 w-4" /> {phone}
                   </a>
                 ))}
@@ -240,7 +240,7 @@ function LocationValue({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border bg-slate-50 p-4 text-center dark:bg-slate-800">
       <p className="text-sm text-slate-500">{label}</p>
-      <p className="mt-1 font-bold">{value}</p>
+      <p className="mt-1 break-words font-bold">{value}</p>
     </div>
   );
 }
